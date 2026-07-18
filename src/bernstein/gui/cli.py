@@ -301,7 +301,12 @@ def serve(
 
     mount(app)
 
-    local_url = f"http://{host}:{port}/ui/"
+    # The SPA authenticates API calls from the URL fragment into localStorage.
+    # Without this, opening the printed URL sends every API request anonymous
+    # and immediately renders "missing or invalid auth header".
+    auth_token = os.environ.get("BERNSTEIN_AUTH_TOKEN", "").strip()
+    auth_suffix = f"#t={auth_token}" if auth_token else ""
+    local_url = f"http://{host}:{port}/ui/{auth_suffix}"
     click.echo(f"Bernstein GUI - {local_url}")
     if dev:
         click.echo(
