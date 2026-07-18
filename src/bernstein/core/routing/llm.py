@@ -106,7 +106,7 @@ def get_client(provider: str) -> AsyncOpenAI:
 _CLI_FLAGS: dict[str, tuple[str, str, list[str]]] = {
     "gemini": ("-p", "-m", []),
     "qwen": ("-y", "--model", []),
-    "codex": ("--prompt", "--model", []),
+    "codex": ("exec", "-m", []),
     "goose": ("--prompt", "--model", []),
     "aider": ("--message", "--model", []),
     "claude": ("--print -p", "--model", ["--output-format", "text", "--max-turns", "1"]),

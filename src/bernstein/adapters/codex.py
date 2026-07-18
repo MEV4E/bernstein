@@ -111,6 +111,8 @@ class CodexAdapter(CLIAdapter):
             "workspace-write",
             "-m",
             model,
+            "-c",
+            f'model_reasoning_effort="{model_config.effort}"',
             "--json",
             "-o",
             str(output_path),
