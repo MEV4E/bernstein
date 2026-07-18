@@ -112,6 +112,8 @@ dependencies = [
     # stay above the CVE-2026-45409 floor regardless of which transitive
     # owner resolves first; pip-audit gates the production closure on this.
     "idna>=3.15",
+    # Version parsing used by the doctor canary compatibility check.
+    "packaging>=24.0",
 ]
 
 [project.urls]
