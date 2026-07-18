@@ -213,6 +213,17 @@ class TestDetectKiro:
         assert warnings == []
 
     @patch("bernstein.core.agents.agent_discovery._run_probe")
+    @patch("bernstein.core.agents.agent_discovery.shutil.which")
+    def test_ignores_desktop_kiro_launcher(self, which: MagicMock, mock_probe: MagicMock) -> None:
+        which.side_effect = lambda name: r"C:\Program Files\Kiro\bin\kiro.cmd" if name == "kiro" else None
+
+        agent, warnings = _detect_kiro()
+
+        assert agent is None
+        assert warnings == []
+        mock_probe.assert_not_called()
+
+    @patch("bernstein.core.agents.agent_discovery._run_probe")
     @patch("bernstein.core.agents.agent_discovery.shutil.which", return_value="/usr/local/bin/kiro-cli")
     def test_detects_logged_in_and_models(self, _which: Any, mock_probe: MagicMock) -> None:
         version = subprocess.CompletedProcess(args=[], returncode=0, stdout="kiro-cli 1.2.3\n", stderr="")

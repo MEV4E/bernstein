@@ -533,9 +533,11 @@ def _detect_kiro_auth(binary_name: str) -> tuple[bool, str]:
 
 
 def _detect_kiro() -> tuple[AgentCapabilities | None, list[str]]:
-    """Detect Kiro CLI."""
+    """Detect the headless Kiro CLI without launching the desktop IDE."""
     warnings: list[str] = []
-    binary = shutil.which("kiro-cli") or shutil.which("kiro")
+    # ``kiro`` is the Windows desktop launcher, not the headless CLI.  Falling
+    # back to it probes/opens Kiro Code during Bernstein startup.
+    binary = shutil.which("kiro-cli")
     if binary is None:
         return None, []
 
